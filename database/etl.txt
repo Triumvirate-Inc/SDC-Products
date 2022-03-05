@@ -1,0 +1,7 @@
+-- THIS IS TO LOAD DATA FROM CSV FILES TO DB --
+\COPY productDetail FROM '/Users/mowems/SDC-Project/csv/product.csv' DELIMITER ',' CSV HEADER;
+\COPY features FROM '/Users/mowems/SDC-Project/csv/features.csv' DELIMITER ',' CSV HEADER;
+\COPY relatedProduct FROM '/Users/mowems/SDC-Project/csv/related.csv' DELIMITER ',' CSV HEADER;
+\COPY styles FROM '/Users/mowems/SDC-Project/csv/styles.csv' DELIMITER ',' CSV HEADER;
+\COPY skus FROM '/Users/mowems/SDC-Project/csv/skus.csv' DELIMITER ',' CSV HEADER;
+\COPY photos FROM '/Users/mowems/SDC-Project/csv/photos.csv' DELIMITER ',' CSV HEADER;

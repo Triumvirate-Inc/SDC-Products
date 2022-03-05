@@ -1,0 +1,30 @@
+{
+  "name": "sdc-product",
+  "version": "1.0.0",
+  "description": "sdc product",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Triumvirate-Inc/SDC-Products.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Triumvirate-Inc/SDC-Products/issues"
+  },
+  "homepage": "https://github.com/Triumvirate-Inc/SDC-Products#readme",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2",
+    "pg": "^8.7.1",
+    "pg-format": "^1.0.4",
+    "pg-pool": "^3.4.1"
+  },
+  "devDependencies": {
+    "artillery": "^2.0.0-10"
+  }
+}
