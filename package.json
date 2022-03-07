@@ -4,6 +4,7 @@
   "description": "sdc product",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon server/index.js",
     "test": "jest"
   },
   "repository": {
@@ -19,10 +20,12 @@
   "dependencies": {
     "csv-parser": "^3.0.0",
     "dotenv": "^14.2.0",
-    "express": "^4.17.2",
-    "pg": "^8.7.1",
+    "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "pg": "^8.7.3",
     "pg-format": "^1.0.4",
-    "pg-pool": "^3.4.1"
+    "pg-pool": "^3.4.1",
+    "postgres": "^1.0.2"
   },
   "devDependencies": {
     "artillery": "^2.0.0-10"
