@@ -1,50 +1,85 @@
-const postgres = require('postgres');
-const sql = postgres({
+const { Pool } = require('pg')
+
+const pool = new Pool({
   host: 'localhost',
-  port: 5432,
-  path: '/tmp',
-  username: '',
-  database: 'postgres'
-});
+  user: 'mowems',
+  database: 'postgres',
+  port: 5432
+})
 
-//Get all products list
-//Pull product list from DB with limit to avoid server crashing
-module.exports.getProducts = async function(params, callback) {
-  const data = await sql`
-  SELECT * FROM productdetail
-  `;
-  callback(null, data);
+module.exports = {
+  getAllProducts: (callback) => {
+    const queryStr = `SELECT * FROM productdetail LIMIT 20`;
+    pool.query(queryStr, (err, data) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, data.rows);
+      }
+    })
+  },
+
+  getProduct: (id, callback) => {
+
+    const queryStr = `SELECT productdetail.*, json_agg(
+          json_build_object(
+            'feature', features.feature,
+            'value', features.value
+          )
+        ) AS features FROM productdetail JOIN features
+        ON productdetail.id=features.productid WHERE productdetail.id=$1 GROUP BY productdetail.id`;
+    //$ indicates which element it's taking in the qryArgs array starting at 1
+    const queryArg = [id];
+    pool.query(queryStr, queryArg, (err, data) => {
+      if (err) {
+        // console.log('Error executing query', err);
+        callback(err);
+      } else {
+        // console.log('Get One Product Query: ', data)
+        callback(null, data.rows)
+      }
+    })
+  },
+
+  // getStyles: (id, callback) => {
+
+  //   const queryStr = `SELECT styles.product_id,
+  //   (SELECT json_agg
+  //     (json_build_object
+  //       ('style_id', styles.id,
+  //       'name', styles.name,
+  //       'original_price', styles.original_price,
+  //       'sale_price', styles.sale_price,
+  //       'default?', styles.default_style,
+  //       'photos', (SELECT
+  //         json_agg(
+  //           json_build_object(
+  //             'thumbnail_url', photos.thumbnail_url,
+  //             'url', photos.url)
+  //           )FROM photos WHERE photos.style_id=styles.id
+  //         ),
+  //       'skus', (SELECT
+  //         json_object_agg(
+  //           skus.id,
+  //           json_build_object(
+  //             'quantity', skus.quantity,
+  //             'size', skus.size)
+  //           ) FROM skus WHERE skus.style_id=styles.id
+  //         )
+  //       )
+  //     ) AS results FROM styles WHERE styles.product_id=$1
+  //   ) FROM styles WHERE styles.product_id=$1`;
+  //   const queryArg = [id];
+  //   pool.query(queryStr, queryArg, (err, data) => {
+  //     if (err) {
+  //       // console.log('Error executing query', err);
+  //       callback(err);
+  //     } else {
+  //       // console.log('Products Query: ', data)
+  //       callback(null, data.rows)
+  //     }
+  //   })
+  // }
+
 }
 
-module.exports.getSingleProduct = async function(params, callback) {
-  const data = await sql`
-  SELECT
-  p.id,
-  p.productname,
-  p.slogan,
-  p.description,
-  p.category,
-  p.defaultPrice,
-  json_agg(json_build_object(
-    'feature', f.feature,
-    'value', f.value
-  )) as features
-  FROM productdetail p LEFT OUTER JOIN features f on p.id = f.productId WHERE p.id=${product_id} GROUP BY p.id
-  `;
-  callback(null, data);
-}
-
-module.exports.getSingleProductStyles = async function(params, callback) {
-  const data = await sql`
-  select style_id, name, original_price, sale_price, "default?" FROM styles where
-    product_id = ${params.product_id}
-    and not reported
-  `;
-  callback(null, data);
-}
-
-module.exports.getRelatedItems = async function(params, callback) {
-  const data = await sql`SELECT *
-    FROM relatedProduct WHERE relatedProduct.productId = ${productId}`;
-    callback(null, data);
-}

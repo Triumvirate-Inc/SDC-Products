@@ -1,0 +1,4 @@
+Login: psql postgres
+
+Describe table: \d tableName
+

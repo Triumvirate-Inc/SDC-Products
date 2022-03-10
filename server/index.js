@@ -18,31 +18,35 @@ const sendResponse = function(err, data, res) {
 }
 
 // Get Products
-app.get('shopdata/products/', (req, res) => {
-  db.getSingleProduct(params,
+app.get('/shopdata/products/', (req, res) => {
+  // console.log('Params :', req.params);
+  // res.send('Hello');
+  db.getAllProducts(
     (err, data) => sendResponse(err, data, res));
 });
 
 //Get Single Product
-app.get('shopdata/products/:product_id}', (req, res) => {
-  const params = { product_id: req.query.product_id };
-  db.getProducts(params,
+app.get(`/shopdata/product/:product_id`, (req, res) => {
+  // res.send('Hello');
+  const params = { product_id: req.params.product_id };
+  // console.log('REQ :', params);
+  db.getProduct(params.product_id,
     (err, data) => sendResponse(err, data, res));
 });
 
-//Get Single Product Style
-app.get('shopdata/products/:product_id/styles', (req, res) => {
-  const params = { product_id: req.query.product_id };
-  db.getSingleProductStyles(params,
-    (err, data) => sendResponse(err, data, res));
-});
+// //Get Single Product Style
+// app.get('/shopdata/products/:product_id/styles', (req, res) => {
+//   const params = { product_id: req.query.product_id };
+//   db.getSingleProductStyles(params,
+//     (err, data) => sendResponse(err, data, res));
+// });
 
-//Get Related Products
-app.get('shopdata/products/:product_id/related', (req, res) => {
-  const params = { product_id: req.query.product_id };
-  db.getRelatedItems(params,
-    (err, data) => sendResponse(err, data, res));
-});
+// //Get Related Products
+// app.get('/shopdata/products/:product_id/related', (req, res) => {
+//   const params = { product_id: req.query.product_id };
+//   db.getRelatedItems(params,
+//     (err, data) => sendResponse(err, data, res));
+// });
 
 // Listening for requests on the PORT
 app.listen(PORT, () => {
