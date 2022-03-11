@@ -32,7 +32,9 @@
   },
   "devDependencies": {
     "artillery": "^2.0.0-10",
+    "chai": "^4.3.6",
     "jest": "^27.5.1",
+    "supertest": "^6.2.2",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2"
   }
