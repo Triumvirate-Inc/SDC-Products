@@ -1,6 +1,8 @@
 const app = require('../../app.js');
 const request = require('supertest')(app);
+// var mocha = require('mocha');
 const expect = require('chai').expect;
+// var describe = mocha.describe;
 const express = require('express');
 
 describe("GET /products", () => {
