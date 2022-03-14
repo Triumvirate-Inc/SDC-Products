@@ -32,17 +32,15 @@ module.exports = {
     const queryArg = [id];
     pool.query(queryStr, queryArg, (err, data) => {
       if (err) {
-        // console.log('Error executing query', err);
         callback(err);
       } else {
-        // console.log('Get One Product Query: ', data)
+      
         callback(null, data.rows)
       }
     })
   },
 
   getStyles: (id, callback) => {
-    // console.log('id: ', id);
     const queryStr = `SELECT styles.productid,
     (SELECT json_agg
       (json_build_object
@@ -72,10 +70,8 @@ module.exports = {
     const queryArg = [id];
     pool.query(queryStr, queryArg, (err, data) => {
       if (err) {
-        // console.log('Error executing query', err);
         callback(err);
       } else {
-        // console.log('Products Query: ', data)
         callback(null, data.rows)
       }
     })
